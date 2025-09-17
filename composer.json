@@ -1,0 +1,18 @@
+{
+    "name": "sithu/barcode-generator",
+    "description": "Testing for barcode generator",
+    "autoload": {
+        "psr-4": {
+            "AB\\BarcodeGenerator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sithu",
+            "email": "sithu@aluto-benli.com"
+        }
+    ],
+    "require": {
+        "picqer/php-barcode-generator" : "2.0.1"
+    }
+}
