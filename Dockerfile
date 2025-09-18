@@ -2,8 +2,11 @@
 FROM php:7.2.34-apache
 
 # Install system dependencies required for Composer and PDF generation
-# Install only essential packages to keep image size small
-RUN apt-get update && apt-get install -y \
+# Use archived Debian repositories for PHP 7.2 compatibility
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list && \
+    echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/10no--check-valid-until && \
+    apt-get update && apt-get install -y \
     git \
     unzip \
     && rm -rf /var/lib/apt/lists/*
