@@ -1,6 +1,16 @@
 <?php
 
-require '../vendor/autoload.php';
+// Enable all errors for debugging
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', 1);
+
+$autoloadPath = __DIR__ . '/vendor/autoload.php';
+
+if (!file_exists($autoloadPath)) {
+    die("<p>ERROR: Autoload file not found at $autoloadPath</p>");
+}
+
+require $autoloadPath;
 
 $data = 'CLS' . date('His');
 $widthFactor = 2;
@@ -18,6 +28,19 @@ function generateBarcodePNG($data, $widthFactor = 2, $height = 40)
 
 $barcodePNG = generateBarcodePNG($data);
 
+// Display barcode in browser
+echo "<h2>Barcode Data: {$data}</h2>";
+
+echo "<h3>Original Barcode</h3>";
+$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+echo $generator->getBarcode($data, $generator::TYPE_CODE_39, $widthFactor, $height);
+
+echo "<h3>Original Barcode (img)</h3>";
+echo '<img src="data:image/png;base64,' . $barcodePNG . '" alt="' . $data . '" />';
+
+echo "<h3>Barcode (img width 180px)</h3>";
+echo '<img src="data:image/png;base64,' . $barcodePNG . '" alt="' . $data . '" style="width: 180px" />';
+
 // PDF folder
 $pdfFolder = __DIR__ . '/../pdf';
 if (!is_dir($pdfFolder)) {
@@ -32,6 +55,7 @@ if (!file_exists($ttfFile)) {
 }
 
 $fileName = 'barcode_' . date('YmdHis');
+$platform = '<p>Generated platform: ' . php_uname() . '</p>';
 
 // Initialize TCPDF
 $pdf = new \TCPDF();
@@ -103,29 +127,16 @@ $html .= '  <span>' . $data . '</span>';
 $html .= '</td>';
 $html .= '</tr>';
 $html .= '</body>';
-$html .= '</table>';
+$html .= '</table>' . $platform;
 
 // Convert TTF font to TCPDF format (only needed once)
 $fontName = TCPDF_FONTS::addTTFfont($ttfFile, 'TrueTypeUnicode', '', 96);
 $pdf->SetFont($fontName, '', 10, '', false);
 // Output the remaining HTML content
 $pdf->writeHTML($html, true, false, true, false, '');
-ob_clean();
-
-// Display barcode in browser
-echo "<h2>Barcode Data: {$data}</h2>";
-
-echo "<h3>Original Barcode</h3>";
-$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
-echo $generator->getBarcode($data, $generator::TYPE_CODE_39, $widthFactor, $height);
-
-echo "<h3>Original Barcode (img)</h3>";
-echo '<img src="data:image/png;base64,' . $barcodePNG . '" alt="' . $data . '" />';
-
-echo "<h3>Barcode (img width 180px)</h3>";
-echo '<img src="data:image/png;base64,' . $barcodePNG . '" alt="' . $data . '" style="width: 180px" />';
-
 // Save PDF in /pdf folder
 $pdfFilePath = $pdfFolder . '/' . $fileName . '.pdf';
 $pdf->Output($pdfFilePath, 'F');
 echo "<p>PDF created in: <b>/pdf/" . basename($pdfFilePath) . "</b></p>";
+
+echo $platform;
