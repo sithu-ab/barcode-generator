@@ -1,0 +1,45 @@
+# Git files
+.git
+.gitignore
+
+# Documentation
+README.md
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Node modules (if any)
+node_modules/
+
+# Composer cache
+.composer/
+
+# PHPUnit
+.phpunit.result.cache
+
+# Coverage reports
+coverage/
+
+# Build artifacts
+build/
+dist/
