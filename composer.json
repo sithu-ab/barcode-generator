@@ -1,11 +1,6 @@
 {
     "name": "sithu/barcode-generator",
     "description": "Testing for barcode generator",
-    "autoload": {
-        "psr-4": {
-            "AB\\BarcodeGenerator\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Sithu",

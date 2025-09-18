@@ -29,8 +29,9 @@ FROM php:7.2.34-apache
 COPY --from=builder /app/vendor ./vendor
 
 # Copy application source code
-COPY src/ ./
+COPY fonts/ ./fonts
 COPY pdf/ ./pdf/
+COPY index.php ./index.php
 
 # Set proper permissions and clean up in single layer
 RUN chown -R www-data:www-data /var/www/html && \

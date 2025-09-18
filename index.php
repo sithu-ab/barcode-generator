@@ -1,20 +1,16 @@
 <?php
 
 // Enable all errors for debugging
-error_reporting(E_ALL);
+error_reporting(E_ERROR | E_PARSE);
 ini_set('display_errors', 1);
 
-echo "<p>Starting barcode generation...</p>";
-
-$autoloadPath = __DIR__ . '/../vendor/autoload.php';
-echo "<p>Looking for autoload at: $autoloadPath</p>";
+$autoloadPath = __DIR__ . '/vendor/autoload.php';
 
 if (!file_exists($autoloadPath)) {
     die("<p>ERROR: Autoload file not found at $autoloadPath</p>");
 }
 
 require $autoloadPath;
-echo "<p>Autoload successful!</p>";
 
 $data = 'CLS' . date('His');
 $widthFactor = 2;
